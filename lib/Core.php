@@ -230,12 +230,20 @@ class SparkAPI_Core {
 
 		// parse format like "5m" into 300 seconds
 		$seconds_to_cache = $this->parse_cache_time($cache_time);
-
+		
+		$uri_and_service = '/' . $this->api_version . '/' . $service;
+		$host = $this->api_base;
+		
+		if ($service == "openid/token") {	//if this is an auth call we need to strip the /v1 from the request and point it at the correct base
+			$uri_and_service = '/' . $service;
+			$host = $this->platform_base;
+		}
+			
 		$request = array(
 			'protocol' => ($this->force_https or $service == 'session') ? 'https' : 'http',
 			'method' => $method,
-			'uri' => '/' . $this->api_version . '/' . $service,
-			'host' => $this->api_base,
+			'uri' => $uri_and_service,
+			'host' => $host,
 			'headers' => $this->headers,
 			'params' => $params,
 			'post_data' => $post_data

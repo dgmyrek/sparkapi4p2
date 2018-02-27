@@ -33,7 +33,7 @@ class SparkAPI_OAuth extends SparkAPI_Core implements SparkAPI_AuthInterface {
 	}
 
 	function sign_request($request) {
-		$this->SetHeader('Authorization', 'OAuth '. $this->last_token);
+		$this->SetHeader('Authorization', 'Bearer '. $this->last_token);
 
 		// reload headers into request
 		$request['headers'] = $this->headers;
